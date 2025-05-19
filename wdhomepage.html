@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpg" href="./bpc.jpg">
+  <title>HOMEPAGE</title>
+  <link rel="stylesheet" href="./webdev.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+          <a href="./wdhomepage.html" id="logo">
+    <img src="bpc.jpg" class="logo" height=""150px width="150px"></a>
+    <p>BPC E-LIBRARY</p>
+    <div class="header-icons">
+        <a href="./wdprofile.html"><i class="fa-solid fa-user" id="profileIcon"></i></a>
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </div>
+
+</header>
+
+<div class="search-container">
+    <input type="text" placeholder="Search books..." id="searchInput" onkeyup="searchBooks()">
+</div>
+
+<nav id="menuDropdown">
+    <ul>
+        <li><a href="settings.html"><i class="fa-solid fa-cog"></i> Settings</a></li>
+        <li><a href="./login.html"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</nav>
+
+   <div class="library">
+        <div class="book" >
+            <img src="./college algebra.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>College Algebra</h3>
+                <h5>by: Jay Abramson</h5><br>
+                <p>College Algebra is the introductory course in algebra. The course is designed to familiarize learners with fundamental mathematical.</p>
+                <button onclick="window.open('https://assets.openstax.org/oscms-prodcms/media/documents/College-Algebra-2e-WEB.pdf')">Read</button>
+                <button onclick="addToLibrary('College Algebra', 'college algebra.jpg')">+</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./origin_species.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>The Origin of Species</h3>
+                <h5>by: Charles Darwin</h5><br>
+                <p>Origin of Species by Means of Natural Selection (1859) is a sustained argument showing that the diversity of organisms and their characteristics can be explained as the result of natural processes.</p>
+                <button onclick="openPopup('The Origin of Species', 'Charles Darwin', './origin_species.jpg')">Borrow</button>
+        </div>
+        </div>
+                <div class="book" >
+            <img src="./social.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>The Social Cancer</h3>
+                <h5>by: Jose Rizal</h5><br>
+                <p>"The Social Cancer," originally titled "Noli Me Tangere," is a seminal work by Filipino nationalist and revolutionary, Jose Rizal. Set in the Philippines during Spanish colonial rule.</p>
+                <button onclick="openPopup('The Social Cancer', 'Jose Rizal', './social.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./precalculus.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Pre-Calculus for Dummies</h3>
+                <h5>by: Mary Jane Sterling</h5><br>
+                <p>Make sence of logirithms and exponentials. Understanding function, solve linear equations. Graph algebraic functions.</p>
+                <button onclick="openPopup('Pre-Calculus for Dummies', 'Mary Jane Sterling', './precalculus.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./physics.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Principles of Physics</h3>
+                <h5>by: S. Chad</h5><br>
+                <p>Principle of Physics is written primarily for the students preparing for CBSE Examination as per new Syllabus. Simple langauge and systematic development of the subject matter.</p>
+                <button onclick="openPopup('Principles of Physics', 'S. Chad', './physics.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./literature.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>The Language of Literature</h3>
+                <h5>by: McDougal Littell</h5>
+                <p>The specific and often distinctive way language is used in literary works to create artistic expression, evoke emotions, and convey meaning beyond everyday communication.</p>
+                <button onclick="openPopup('The Language of Literature', 'McDougal Littell', './literature.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./filipino-1.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Filipino sa Piling Larang</h3>
+                <h5>by: Leslie Pearl N. Castillo</h5>
+                <p>Encompasses the written works in the Philippines, both in the native languages and English.</p>
+                <button onclick="openPopup('Filipino sa Piling Larang', 'Leslie Pearl N. Castillo', './filipino-1.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./masining.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Masining na Pagsulat sa Filipino</h3>
+                <h5>by: si iska siguro</h5>
+                <p>Refers to writing that uses language creatively and expressively to enhance the quality of the writing and evoke emotions or imagery in the reader.</p>
+                <button onclick="openPopup('Masining na Pagsulat sa Filipino', 'si iska siguro', './masining.jpg')">Borrow</button>
+            </div>
+        </div>
+                <div class="book" >
+            <img src="./habit.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>The Power of Habit</h3>
+                <h5>by: Charles Duhigg</h5>
+                <p>The Power of Habit helps you understand why habits are at the core of everything you do, how you can change them, and what impact that will have on your life, your business and society.</p>
+                <button onclick="openPopup('The Power of Habit', 'Charles Duhigg', './habit.jpg')">Borrow</button>
+            </div>
+            </div>
+
+
+        <div class="book" >
+            <img src="./chemistry.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Introduction to Computational Chemistry</h3>
+                <h5>by: Frank Jensen</h5>
+                <p>It combines theoretical chemistry methods with computer programs to calculate molecular structures, properties, and interactions.</p>
+                <button onclick="openPopup('Introduction to Computational Chemistry', 'Frank Jensen', './chemistry.jpg')">Borrow</button>
+            </div>
+        </div>
+        <div class="book" >
+            <img src="./verbs.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Three Forms of Verbs</h3>
+                <h5>by: M. Masood</h5>
+                <p>Base form (or infinitive), past form, and past participle form.</p>
+                <button onclick="openPopup('Three Forms of Verbs', 'M. Masood', './verbs.jpg')">Borrow</button>
+            </div>
+        </div>
+        <div class="book" >
+            <img src="./forest.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Forest Ecology</h3>
+                <h5>by: Daniel M. Kashian</h5>
+                <p>The study of how organisms interact with their environment within tree-dominated ecosystems, focusing on the relationships between living things and their surroundings.</p>
+                <button onclick="openPopup('Forest Ecology', 'Daniel M. Kashian', './forest.jpg')">Borrow</button>
+        </div>
+        </div>
+        <div class="book" >
+            <img src="./biology.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>General Biology</h3>
+                <h5>by: Arlon P. Cadiz</h5>
+                <p>The scientific study of living organisms and life processes, encompassing their structure, function, growth, evolution, and interactions with their environment.</p>
+                <button onclick="openPopup('General Biology', 'Arlon P. Cadiz', './biology.jpg')">Borrow</button>
+            </div>
+        </div>
+        <div class="book" >
+            <img src="./florante.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Florante at Laura</h3>
+                <h5>by: Francisco Baltazar</h5>
+                <p>A story of love, betrayal, and political struggle set in ancient Greece, though it is allegorical of the Filipino struggle under Spanish colonial rule.</p>
+            <button onclick="window.open('https://assets.openstax.org/oscms-prodcms/media/documents/College-Algebra-2e-WEB.pdf')">Read</button>
+            <button onclick="addToLibrary('Florante at Laura', 'florante.jpg')">+</button>
+        </div>
+        </div>
+        <div class="book" >
+            <img src="./oral.jpg" alt="Book Cover">
+            <div class="book-info">
+                <h3>Oral Communication for Non-Native Speakers of English</h3>
+                <h5>by: Agata Guskaroska</h5>
+                <p>Focuses on developing the ability to speak, listen, and understand effectively in English, particularly for academic and professional settings.</p>
+                <button onclick="openPopup('Oral Communication for Non-Native Speakers of English', 'Agata Guskaroska', './oral.jpg')">Borrow</button>
+            </div>
+        </div>
+    </div><br>
+
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+  <h2>Borrowing a Book?</h2>
+  <input type="text" id="studentName" placeholder="Student Name"><br><br>
+  <input type="text" id="courseSection" placeholder="Course & Section"><br><br>
+  <input type="text" id="reason" placeholder="Reason for Borrowing"><br><br>
+  <button onclick="submitBorrow()">Submit</button>
+  <button onclick="closePopup()">Close</button>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("menuIcon").addEventListener("click", function () {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("menuIcon").addEventListener("click", function () {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+});
+
+let selectedBook = {};
+
+function openPopup(title, author, image) {
+    selectedBook = { title, author, image };
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+}
+
+function submitBorrow() {
+    const studentName = document.getElementById("studentName").value.trim();
+    const courseSection = document.getElementById("courseSection").value.trim();
+    const reason = document.getElementById("reason").value.trim();
+
+    if (!studentName || !courseSection || !reason) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const book = {
+        title: selectedBook.title,
+        author: selectedBook.author,
+        image: selectedBook.image,
+        name: studentName,
+        course: courseSection,
+        reason: reason
+    };
+
+    const borrowedBooks = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    borrowedBooks.push(book);
+    localStorage.setItem("borrowedBooks", JSON.stringify(borrowedBooks));
+
+    closePopup();
+    alert("Book borrowed successfully!");
+    window.location.href = "./wdborrow.html";
+}
+
+function addToLibrary(title, image) {
+    const book = { title, image };
+    let library = JSON.parse(localStorage.getItem("myBooks")) || [];
+
+    if (library.some(b => b.title === title)) {
+        alert(`${title} is already in your library.`);
+        return;
+    }
+
+    library.push(book);
+    localStorage.setItem("myBooks", JSON.stringify(library));
+    alert(`${title} added to your library.`);
+    window.location.href = "./wdmybooks.html";
+}
+
+function searchBooks() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let books = document.querySelectorAll(".book");
+    let bookmarkSection = document.querySelector(".full-width");
+    let found = false;
+
+    books.forEach(book => {
+        let title = book.querySelector(".book-info h3, h5").textContent.toLowerCase();
+        if (title.includes(input)) {
+            book.style.display = "flex"; 
+            found = true;
+        } else {
+            book.style.display = "none";
+        }
+    });
+
+    if (bookmarkSection) bookmarkSection.style.display = found ? "none" : "block";
+}
+
+
+</script>
+
+
+  <footer>
+        <p>&copy; 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+
+
+</body>
+</html>
