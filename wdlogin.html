@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="./bpc.jpg">
+    <title>School E-Library</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+     <link rel="stylesheet" href="./webdev_revised.css">
+        
+</head>
+<body>
+
+    <header>
+    <img src="bpc.jpg" class="blogo" height=""150px width="150px">
+<div class="school-name" style="text-align: center;">Bulacan, Polytechnic, College<br>Bulihan, City of Malolos, Bulacan<br>E-Library</div>
+    </header>
+
+  <div class="drop">
+    <input type="checkbox" id="toggle" />
+    <label for="toggle" class="dropdown">
+      <span>Services</span>
+      <i class="fas fa-chevron-down icon"></i>
+    </label>
+    <div class="dropdown-content">
+      <ul class="con">
+        <li><a href="#">Admin</a></li>
+        <li><a href="#">Staff</a></li>
+        <li><a href="#">Teacher</a></li>
+        <li><a href="#">Student</a></li>
+      </ul>
+    </div>
+  </div><br><br>
+
+<div class="login-container">
+    <form onsubmit="return login()">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="text" id="userId" placeholder="Student ID"><br>
+      
+      <button type="submit">Login</button>
+    </form>
+</div>
+
+<img src="./bpcbg.jpg" alt="bpc" class="page">
+    <footer style="position: fixed!important;">
+        <p style="font-family: sans-serif;">&copy; 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ header {
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    background-color: forestgreen;
+    color: white;
+    font-size: 18px;
+    position: relative;
+}
+
+header img {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    left: 20px;
+}
+
+header.school-name {
+    margin: 0;
+    font-weight: bold;
+    text-align: center;
+}
+    </style>
+    <script>
+        function login() {
+            var username = document.getElementById("username").value;
+            var userId = document.getElementById("userId").value;
+
+            if (username === "" || userId === "") {
+                alert("Please enter both username and student ID.");
+                return false;
+            }
+
+            alert("Login successful!");
+            window.location.href = "./wdhomepage_revised.html";
+            return false;
+        }
+    </script>
+</body>
+</html>

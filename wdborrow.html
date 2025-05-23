@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpg" href="./bpc.jpg">
+  <title>E-LIBRARY | BORROWED BOOKS</title>
+  <link rel="stylesheet" href="./webdev_revised.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+    <header>
+          <a href="./wdhomepage_revised.html" id="logo">
+    <img src="bpc.jpg" class="logo" height=""150px width="150px"></a>
+    <p>BPC E-LIBRARY</p>
+    <div class="header-icons">
+        <a href="./wdprofile_revised.html"><i class="fa-solid fa-user" id="profileIcon"></i></a>
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </div>
+</header>
+
+<nav id="menuDropdown">
+    <ul>
+        <li><a href="./wdmybooks_revised.html"><i class="fa-solid fa-cog"></i>Booklists</a></li>
+        <li><a href="settings.html"><i class="fa-solid fa-cog"></i> Settings</a></li>
+        <li><a href="./login_revised.html"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</nav>
+
+
+   <div class="container">
+        <div class="user-info">
+            <p>Username: Iska DG. Pati Cruz</p>
+            <p>User ID: MA12220000</p>
+            <p><a href="#" style="text-decoration: none;">Full Details</a></p>
+        </div>
+        <div class="navigation">
+            <a href="./wdmybooks_revised.html">MY BOOKS</a>
+            <a href="./wdborrow_revised.html" class="active">BORROWED BOOKS</a>
+            <a href="./wdreturned_revised.html">RETURNED BOOKS</a>
+            <a href="./wdfinished_revised.html">FINISHED BOOKS</a>
+        </div>
+    </div>
+
+<div id="borrowedContainer"></div>
+
+    <footer>
+        <p>&copy; 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("menuIcon").addEventListener("click", function() {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+    renderBorrowedBooks();
+});
+
+function renderBorrowedBooks() {
+    const container = document.getElementById("borrowedContainer");
+    let borrowedBooks = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    let pendingBorrowedBooks = JSON.parse(localStorage.getItem("pendingBorrowedBooks")) || [];
+
+    if (borrowedBooks.length === 0 && pendingBorrowedBooks.length === 0) {
+        container.innerHTML = "<p>No borrowed books.</p>";
+        return;
+    }
+
+    container.innerHTML = ""; // Clear existing content
+
+    // Display pending books
+    pendingBorrowedBooks.forEach((book, index) => {
+        const div = document.createElement("div");
+        div.className = "book";
+        div.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>${book.author}</p>
+            <p style="color: orange;">Status: Pending Confirmation</p>
+            <button style="background-color: gray;" disabled>Read</button>
+            <button onclick="cancelBorrow(${index})">Cancel Request</button>
+        `;
+        container.appendChild(div);
+    });
+
+    borrowedBooks.forEach((book, index) => {
+        const div = document.createElement("div");
+        div.className = "book";
+        div.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p>${book.author}</p>
+            <p style="color: green;">Status: Confirmed</p>
+            <button onclick="window.open('')">Read</button>
+            <button onclick="returnBook(${index})">Return</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function returnBook(index) {
+    let borrowed = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    let pendingReturned = JSON.parse(localStorage.getItem("pendingReturnedBooks")) || [];
+
+    const book = borrowed.splice(index, 1)[0];
+    book.status = "pending"; // Mark as pending return
+    pendingReturned.push(book);
+
+    localStorage.setItem("borrowedBooks", JSON.stringify(borrowed));
+    localStorage.setItem("pendingReturnedBooks", JSON.stringify(pendingReturned));
+
+    alert("Book return request sent! Awaiting admin confirmation.");
+    window.location.href = "wdreturned_revised.html";
+}
+
+function cancelBorrow(index) {
+    let pendingBorrowed = JSON.parse(localStorage.getItem("pendingBorrowedBooks")) || [];
+    const bookTitle = pendingBorrowed[index].title;
+    
+    pendingBorrowed.splice(index, 1);
+    localStorage.setItem("pendingBorrowedBooks", JSON.stringify(pendingBorrowed));
+    alert(`${bookTitle} borrowing request cancelled.`);
+    renderBorrowedBooks(); // Re-render the list
+}
+
+function clearStorage(key) {
+  localStorage.removeItem(key);
+  renderBorrowedBooks();
+}
+</script>
+</body>
+</html>
