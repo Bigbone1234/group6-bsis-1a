@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpg" href="./bpc.jpg">
+  <title>E-LIBRARY | BORROWED BOOKS</title>
+  <link rel="stylesheet" href="./wd.css"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .admin-sim-button {
+        background-color: #ffc107 !important; /* Amber color */
+        color: black !important;
+        padding: 5px 10px !important;
+        font-size: 0.8em !important;
+        margin-top: 5px !important;
+    }
+  </style>
+</head>
+<body>
+
+    <header>
+          <a href="./wdhomepage.html" id="logo">
+    <img src="bpc.jpg" class="logo" height=""150px width="150px"></a>
+    <p>BPC E-LIBRARY</p>
+    <div class="header-icons">
+        <a href="./wdprofile.html"><i class="fa-solid fa-user" id="profileIcon"></i></a>
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </div>
+</header>
+
+<nav id="menuDropdown">
+    <ul>
+        <li><a href="settings.html"><i class="fa-solid fa-cog"></i> Settings</a></li>
+        <li><a href="./login.html"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</nav>
+
+
+   <div class="container">
+        <div class="user-info">
+            <p>Username: Iska DG. Pati Cruz</p> 
+            <p>User ID: MA12220000</p> 
+            <p><a href="./wdprofile.html" style="text-decoration: none;">Full Details</a></p>
+        </div>
+        <div class="navigation">
+            <a href="./wdmybooks.html">MY BOOKS</a>
+            <a href="./wdborrow.html" class="active">BORROWED BOOKS</a>
+            <a href="./wdreturned.html">RETURNED BOOKS</a>
+            <a href="./wdfinished.html">FINISHED BOOKS</a>
+        </div>
+      </div>
+
+  <div id="borrowedContainer">
+  </div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("menuIcon").addEventListener("click", function() {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+    renderBorrowedBooks();
+  });
+
+  function renderBorrowedBooks() {
+    const container = document.getElementById("borrowedContainer");
+    container.innerHTML = ""; 
+    const books = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+
+    if (books.length === 0) {
+        container.innerHTML = "<p>No borrowed books or requests pending.</p>";
+        return;
+    }
+
+    books.forEach((book, index) => {
+        const div = document.createElement("div");
+        div.className = "book";
+        let statusMessage = "Unknown Status";
+        if (book.status === 'pending_borrow') {
+            statusMessage = 'Pending Admin Approval';
+        } else if (book.status === 'approved_borrow') {
+            statusMessage = 'Approved';
+        } else if (book.status === 'denied_borrow') {
+            statusMessage = 'Borrow Request Denied';
+        }
+
+
+        let bookHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p><b>Author:</b> ${book.author}</p>
+            <p><b>Status:</b> ${statusMessage}</p>
+            <p><b>Requested:</b> ${book.requestedDate || 'N/A'}</p>
+        `;
+
+        if (book.status === 'approved_borrow') {
+            bookHTML += `<p><b>Approved:</b> ${book.approvedDate || 'N/A'}</p>`;
+            if (book.readLink) {
+                bookHTML += `<button onclick="window.open('${book.readLink}', '_blank')">Read</button>`;
+            } else {
+                bookHTML += `<button disabled title="Read link not available">Read</button>`;
+            }
+            bookHTML += `<button onclick="requestReturnBook(${index})">Return</button>`;
+        } else if (book.status === 'pending_borrow') {
+            bookHTML += `<button onclick="cancelBorrowRequest(${index})">Cancel Request</button>`;
+            
+            bookHTML += `<button class="admin-sim-button" onclick="adminApproveBorrow(${index})">Simulate Admin Approval</button>`;
+
+        }
+
+
+        div.innerHTML = bookHTML;
+        container.appendChild(div);
+    });
+  }
+
+function requestReturnBook(index) {
+    let borrowed = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    let bookToReturn = borrowed[index];
+
+    if (bookToReturn && bookToReturn.status === 'approved_borrow') {
+        let returnedList = JSON.parse(localStorage.getItem("returnedBooks")) || [];
+        
+        borrowed.splice(index, 1);
+        localStorage.setItem("borrowedBooks", JSON.stringify(borrowed));
+
+        const returnedEntry = {
+            title: bookToReturn.title,
+            author: bookToReturn.author,
+            image: bookToReturn.image,
+            readLink: bookToReturn.readLink, 
+            description: bookToReturn.description,
+            status: "pending_return",
+            requestedReturnDate: new Date().toLocaleString(),
+            originalBorrower: bookToReturn.name, 
+            originalCourse: bookToReturn.course,
+            originalReason: bookToReturn.reason,
+            originalRequestedDate: bookToReturn.requestedDate,
+            originalApprovedDate: bookToReturn.approvedDate
+        };
+        returnedList.push(returnedEntry);
+        localStorage.setItem("returnedBooks", JSON.stringify(returnedList));
+
+        alert("Return request submitted. Pending admin approval.");
+        renderBorrowedBooks(); 
+
+    } else {
+        alert("Book cannot be returned or status is not approved.");
+    }
+}
+
+function cancelBorrowRequest(index) {
+    if (confirm("Are you sure you want to cancel this borrow request?")) {
+        let borrowed = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+        if (borrowed[index] && borrowed[index].status === 'pending_borrow') {
+            borrowed.splice(index, 1);
+            localStorage.setItem("borrowedBooks", JSON.stringify(borrowed));
+            alert("Borrow request cancelled.");
+            renderBorrowedBooks();
+        }
+    }
+}
+
+function removeDeniedRequest(index) {
+     let borrowed = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+     if (borrowed[index] && borrowed[index].status === 'denied_borrow') {
+        borrowed.splice(index, 1);
+        localStorage.setItem("borrowedBooks", JSON.stringify(borrowed));
+        alert("Denied request dismissed.");
+        renderBorrowedBooks();
+    }
+}
+
+
+function adminApproveBorrow(index) {
+    let books = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    if (books[index] && books[index].status === 'pending_borrow') {
+        books[index].status = "approved_borrow";
+        books[index].approvedDate = new Date().toLocaleString();
+        localStorage.setItem("borrowedBooks", JSON.stringify(books));
+        alert(`Admin action: "${books[index].title}" borrow request approved.`);
+        renderBorrowedBooks();
+    } else {
+        alert("Admin action: Book not found or not pending borrow approval.");
+    }
+}
+
+function adminDenyBorrow(index) {
+    let books = JSON.parse(localStorage.getItem("borrowedBooks")) || [];
+    if (books[index] && books[index].status === 'pending_borrow') {
+        books[index].status = "denied_borrow";
+
+        localStorage.setItem("borrowedBooks", JSON.stringify(books));
+        alert(`Admin action: "${books[index].title}" borrow request denied.`);
+        renderBorrowedBooks();
+    } else {
+        alert("Admin action: Book not found or not pending borrow approval.");
+    }
+}
+</script>
+
+
+    <footer>
+        <p>© 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

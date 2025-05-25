@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpg" href="./bpc.jpg">
+  <title>E-LIBRARY | FINISHED BOOKS</title>
+  <link rel="stylesheet" href="./wd.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+          <a href="./wdhomepage.html" id="logo">
+    <img src="bpc.jpg" class="logo" height=""150px width="150px"></a>
+    <p>BPC E-LIBRARY</p>
+    <div class="header-icons">
+        <a href="./wdprofile.html"><i class="fa-solid fa-user" id="profileIcon"></i></a>
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </div>
+
+</header>
+
+<nav id="menuDropdown">
+    <ul>
+        <li><a href="settings.html"><i class="fa-solid fa-cog"></i> Settings</a></li>
+        <li><a href="./login.html"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</nav>
+
+
+   <div class="container">
+        <div class="user-info">
+            <p>Username:Iska DG. Pati Cruz</p> 
+            <p>User ID: MA12220000</p>
+            <p><a href="./wdprofile.html" style="text-decoration: none;">Full Details</a></p>
+        </div>
+        <div class="navigation">
+            <a href="./wdmybooks.html">MY BOOKS</a>
+            <a href="./wdborrow.html">BORROWED BOOKS</a>
+            <a href="./wdreturned.html">RETURNED BOOKS</a>
+            <a href="./wdfinished.html" class="active">FINISHED BOOKS</a>
+        </div>
+      </div>
+
+    <div id="finishedBooksContainer">
+    </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("menuIcon").addEventListener("click", function() {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+    renderFinishedBooks();
+  });
+
+  function renderFinishedBooks() {
+    const container = document.getElementById("finishedBooksContainer");
+    container.innerHTML = ""; 
+    const finishedBooks = JSON.parse(localStorage.getItem("finishedBooksStorage")) || [];
+
+    if (finishedBooks.length === 0) {
+        container.innerHTML = "<p>No finished books yet.</p>";
+        return;
+    }
+
+    finishedBooks.forEach(book => {
+        const div = document.createElement("div");
+        div.className = "book";
+        div.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            <p><b>Author:</b> ${book.author}</p>
+            ${book.description ? `<p><i>${book.description}</i></p>` : ''}
+            <p><b>Status:</b> ${book.status === 'approved_return' ? 'Finished' : book.status}</p>
+            <p><b>Finished Date:</b> ${book.finishedDate || 'N/A'}</p>
+        `;
+        container.appendChild(div);
+    });
+  }
+</script>
+    <footer>
+        <p>© 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

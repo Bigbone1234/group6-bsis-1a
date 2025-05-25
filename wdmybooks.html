@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/jpg" href="./bpc.jpg">
+  <title>E-LIBRARY | MY BOOKS</title>
+  <link rel="stylesheet" href="./wd.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+          <a href="./wdhomepage.html" id="logo">
+    <img src="bpc.jpg" class="logo" height=""150px width="150px"></a>
+    <p>BPC E-LIBRARY</p>
+    <div class="header-icons">
+        <a href="./wdprofile.html"><i class="fa-solid fa-user" id="profileIcon"></i></a>
+        <i class="fa-solid fa-bars" id="menuIcon"></i>
+    </div>
+
+</header>
+
+<nav id="menuDropdown">
+    <ul>
+        <li><a href="settings.html"><i class="fa-solid fa-cog"></i> Settings</a></li>
+        <li><a href="./login.html"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+</nav>
+
+
+   <div class="container">
+        <div class="user-info">
+            <p>Username:Iska DG. Pati Cruz</p> 
+            <p>User ID: MA12220000</p> 
+            <p><a href="./wdprofile.html" style="text-decoration: none;">Full Details</a></p>
+        </div>
+        <div class="navigation">
+            <a href="./wdmybooks.html" class="active">MY BOOKS</a>
+            <a href="./wdborrow.html">BORROWED BOOKS</a>
+            <a href="./wdreturned.html">RETURNED BOOKS</a>
+            <a href="./wdfinished.html">FINISHED BOOKS</a>
+        </div>
+      </div>
+
+    <div id="myBooksContainer">
+    </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("menuIcon").addEventListener("click", function() {
+        let dropdown = document.getElementById("menuDropdown");
+        dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+    renderMyBooks();
+  });
+
+  function renderMyBooks() {
+    const container = document.getElementById("myBooksContainer");
+    container.innerHTML = "";
+    const myBooks = JSON.parse(localStorage.getItem("myBooks")) || [];
+
+    if (myBooks.length === 0) {
+        container.innerHTML = "<p>You haven't added any books to your library yet.</p>";
+        return;
+    }
+
+    myBooks.forEach(book => {
+        const div = document.createElement("div");
+        div.className = "book"; 
+        let readAction = book.readLink ? `window.open('${book.readLink}', '_blank')` : `alert('Read link not available for ${book.title}.')`;
+
+        div.innerHTML = `
+            <img src="${book.image}" alt="${book.title}">
+            <h3>${book.title}</h3>
+            ${book.author && book.author !== "N/A" ? `<p><b>Author:</b> ${book.author}</p>` : ''}
+            ${book.description ? `<p><i>${book.description}</i></p>` : ''}
+            <button onclick="${readAction}">Read</button>
+            <button onclick="removeFromMyBooks('${book.title}')">Remove</button>
+        `;
+        container.appendChild(div);
+    });
+  }
+
+  function removeFromMyBooks(title) {
+    let myBooks = JSON.parse(localStorage.getItem("myBooks")) || [];
+    myBooks = myBooks.filter(b => b.title !== title);
+    localStorage.setItem("myBooks", JSON.stringify(myBooks));
+    renderMyBooks(); // Re-render the list
+    alert(`"${title}" removed from your library.`);
+  }
+</script>
+    <footer>
+        <p>© 2025 <a href= "https://bpc.edu.ph/">Bulacan Polytechnic College.</a> All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
